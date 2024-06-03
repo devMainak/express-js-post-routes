@@ -12,6 +12,7 @@ const movies = [
   { id: 2, title: 'The Godfather', director: 'Francis Ford Coppola', year: 1972 }
 ]
 
+// post method on /movies route
 app.post("/movies", (req, res) => {
   const newMovie = req.body
   if (!newMovie.title || !newMovie.director || !newMovie.year)
@@ -23,8 +24,27 @@ app.post("/movies", (req, res) => {
   }
 })
 
+// get method on /movies route
 app.get("/movies", (req, res) => {
   res.send(movies)
+})
+
+// items dummy DB
+const items = [
+  { id: 1, itemName: 'Spoon', color: 'Silver', quantity: 8},
+ { id: 2, itemName: 'Fork', color: 'Silver', quantity: 8 }
+]
+
+// POST method on /items route
+app.post("/items", (req, res) => {
+  const newItem = req.body
+  if (!newItem.itemName || !newItem.color || !newItem.quantity)
+  {
+    res.status(400).json({error: "itemName, color and quantity are required"})
+  } else {
+    items.push(newItem)
+    res.status(201).json({message: "Item added successfully."})
+  }
 })
 
 const PORT = 3000
