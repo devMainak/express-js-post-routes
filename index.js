@@ -47,6 +47,11 @@ app.post("/items", (req, res) => {
   }
 })
 
+// GET method on /items route
+app.get("/items", (req, res) => {
+  res.send(items)
+})
+
 const PORT = 3000
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
