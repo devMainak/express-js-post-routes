@@ -23,6 +23,9 @@ app.post("/movies", (req, res) => {
   }
 })
 
+app.get("/movies", (req, res) => {
+  res.send(movies)
+})
 
 const PORT = 3000
 app.listen(PORT, () => {
