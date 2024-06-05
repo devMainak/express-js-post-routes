@@ -96,6 +96,27 @@ app.delete("/items/:id", (req, res) => {
   }
 })
 
+// POST method to update doc by id on /items route
+app.post("/items/:id", (req, res) => {
+  const itemId = parseInt(req.params.id)
+  const updatedItem = req.body
+  const itemToUpdate = items.find(item => item.id === itemId)
+  if (!itemToUpdate){
+    res.status(404)
+    .json({error: "Item not found."})
+  } else {
+    if (!updatedItem.itemName || !itemToUpdate.color || !itemToUpdate.quantity){
+      res.status(400)
+      .json({error: "itemName, color and quantity are required"})
+    } else {
+      Object.assign(itemToUpdate, updatedItem)
+      res.status(201)
+      .json({message: "Item updated successfully."})
+    }
+  }
+})
+
+
 // GET method on /items route
 app.get("/items", (req, res) => {
   res.send(items)
