@@ -4,15 +4,16 @@ const app = express()
 app.use(express.json())
 
 app.get("/", (req, res) => {
-  res.send("Express server.")
+  res.send("Hello, Express server.")
 })
 
 const movies = [
   { id: 1, title: 'Inception', director: 'Christopher Nolan', year: 2010 },
-  { id: 2, title: 'The Godfather', director: 'Francis Ford Coppola', year: 1972 }
+  { id: 2, title: 'The Godfather', director: 'Francis Ford Coppola', year: 1972 },
+  { id: 3, title: 'The Shawshank Redemption', director: 'Frank Darabont', year: 1994 }
 ]
 
-// post method on /movies route
+// POST method on /movies route
 app.post("/movies", (req, res) => {
   const newMovie = req.body
   if (!newMovie.title || !newMovie.director || !newMovie.year)
@@ -24,7 +25,20 @@ app.post("/movies", (req, res) => {
   }
 })
 
-// get method on /movies route
+// DELETE method on /movies route
+app.delete("/movies/:id", (req, res) => {
+  const movieId = req.params.id
+  const index = movies.findIndex(movie => movie.id == movieId)
+  if (index == -1)
+  {
+    res.status(404).json({error: "Movie not found."})
+  } else {
+    movies.splice(index, 1)
+    res.status(201).json({message: "Movie deleted successfully."})
+  }
+})
+
+// GET method on /movies route
 app.get("/movies", (req, res) => {
   res.send(movies)
 })
