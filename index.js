@@ -46,7 +46,9 @@ app.get("/movies", (req, res) => {
 // items dummy DB
 const items = [
   { id: 1, itemName: 'Spoon', color: 'Silver', quantity: 8},
- { id: 2, itemName: 'Fork', color: 'Silver', quantity: 8 }
+ { id: 2, itemName: 'Fork', color: 'Silver', quantity: 8 },
+ { id: 3, itemName: 'Plate', color: 'Off-White', quantity: 6 }
+
 ]
 
 // POST method on /items route
@@ -58,6 +60,19 @@ app.post("/items", (req, res) => {
   } else {
     items.push(newItem)
     res.status(201).json({message: "Item added successfully."})
+  }
+})
+
+// DELETE method on /items route
+app.delete("/items/:id", (req, res) => {
+  const itemId = req.params.id
+  const index = items.findIndex(item => item.id == itemId)
+  if (index == -1)
+  {
+    res.status(404).json({error: "Item not found."})
+  } else {
+    items.splice(index, 1)
+    res.status(201).json({message: "Item deleted successfully."})
   }
 })
 
