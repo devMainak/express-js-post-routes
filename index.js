@@ -43,6 +43,26 @@ app.get("/movies", (req, res) => {
   res.send(movies)
 })
 
+// POST method to update on /movies route
+app.post("/movies/:id", (req, res) => {
+  const movieId = parseInt(req.params.id)
+  const updatedMovie = req.body
+  const movieToUpdate = movies.find(movie => movie.id === movieId)
+  if (!movieToUpdate)
+  {
+    res.status(404)
+    .json({error: "Movie not found."})
+  } else {
+    if (!updatedMovie.title || !updatedMovie.director || !updatedMovie.year){
+      res.status(400)
+      .json({error: "Title, director and year required!"})
+    } else {
+      Object.assign(movieToUpdate, updatedMovie)
+      res.status(201).json({message: "Movie updated successfully."})
+    }
+  }
+})
+
 // items dummy DB
 const items = [
   { id: 1, itemName: 'Spoon', color: 'Silver', quantity: 8},
